@@ -15,6 +15,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import edu.human.com.member.service.EmployerInfoVO;
 import edu.human.com.member.service.MemberService;
+import egovframework.let.utl.sim.service.EgovFileScrty;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations ={
@@ -29,7 +30,61 @@ public class MemberTest {
 	@Inject
 	private MemberService memberService;
 	
+	@Test
+	public void updateMember() throws Exception{
+		EmployerInfoVO memberVO = new EmployerInfoVO();
+		memberVO.setEMPLYR_ID("user_2");//수정할 고유 ID값 지정
+		memberVO.setUSER_NM("사용자_2");
+		//암호값에 공백이면, 쿼리에서 제외됩니다.
+		String secPassword = "";
+		memberVO.setPASSWORD(secPassword);
+		memberVO.setEMAIL_ADRES(memberVO.getEMPLYR_ID()+"@abc.com");
+		memberVO.setPASSWORD_HINT("사는동네는?");//null체크에러때문에 질문추가
+		memberVO.setPASSWORD_CNSR("쌍용동");//암호힌트에 대한 답변
+		memberVO.setSEXDSTN_CODE("F");
+		memberVO.setHOUSE_ADRES("집주소");
+		memberVO.setGROUP_ID("GROUP_00000000000000");//외래키이기 때문에 부모테이블에 있는 값을 넣어야함.
+		memberVO.setEMPLYR_STTUS_CODE("P");//회원상태코드 P-활성,S-비활성
+		memberVO.setESNTL_ID("USRCNFRM_00000000000");//고유ID
+		memberService.updateMember(memberVO);
+	}
+	@Test
+	public void deleteMember() throws Exception{
+		int result = memberService.deleteMember("user_3");
+		if(result > 0) {
+			System.out.println("디버그: 정상적으로 삭제 되었습니다.");
+		}else {
+			System.out.println("디버그: 삭제된 값이 없습니다.");
+		}
+	}
+	@Test
+	public void insertMember() throws Exception{
+		EmployerInfoVO memberVO = new EmployerInfoVO();//고전방식 객체생성
+		//memberVO에 set으로 값을 입력한 이후 DB에 insert함.
+		//emplyr_id는 기본키이기 때문에 중복허용하지 않도록 처리(아래)
+		List<EmployerInfoVO> memberList =  memberService.selectMember();
+		memberVO.setEMPLYR_ID("user_"+ memberList.size());
+		memberVO.setORGNZT_ID("ORGNZT_0000000000000");//외래키
+		memberVO.setUSER_NM("사용자_"+memberList.size());
+		//암호화 작업(아래) 스프링시큐리티X, egov전용 시큐리티암호화("입력한문자","입력한ID")
+		String secPassword = EgovFileScrty.encryptPassword("1234",memberVO.getEMPLYR_ID());
+		memberVO.setPASSWORD(secPassword);
+		memberVO.setEMAIL_ADRES("abc@abc.com");
+		memberVO.setPASSWORD_HINT("사는동네는?");//null체크에러때문에 질문추가
+		memberVO.setPASSWORD_CNSR("쌍용동");//암호힌트에 대한 답변
+		memberVO.setSEXDSTN_CODE("F");
+		memberVO.setHOUSE_ADRES("집주소");
+		memberVO.setGROUP_ID("GROUP_00000000000000");//외래키이기 때문에 부모테이블에 있는 값을 넣어야함.
+		memberVO.setEMPLYR_STTUS_CODE("P");//회원상태코드 P-활성,S-비활성
+		memberVO.setESNTL_ID("USRCNFRM_00000000000");//고유ID
+		memberService.insertMember(memberVO);
+	}
 	
+	@Test
+	public void viewMember() throws Exception {
+		EmployerInfoVO memberVO = memberService.viewMember("admin");
+		System.out.println("admin회원의 상세정보는 "+ memberVO.toString());
+	}
 	
 	@Test
 	public void selectMember() throws Exception {
@@ -47,6 +102,5 @@ public class MemberTest {
 	public void junit_test() {
 		System.out.println("Junit실행 확인");
 	}
-	
 	
 }
