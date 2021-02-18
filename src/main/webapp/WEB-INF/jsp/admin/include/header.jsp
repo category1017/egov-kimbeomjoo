@@ -30,6 +30,11 @@
   <link rel="stylesheet" href="<c:url value='/' />resources/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="<c:url value='/' />resources/plugins/summernote/summernote-bs4.min.css">
+<script>
+if("${msg}"!=''){//RedirectAttributes 로 컨트롤러에서 보내옴 값을 출력
+	alert("${msg}가(이) 성공하였습니다.");
+}
+</script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">

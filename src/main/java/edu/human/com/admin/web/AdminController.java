@@ -20,6 +20,13 @@ public class AdminController {
 	@Inject
 	private MemberService memberService;
 	
+	@RequestMapping(value="/admin/member/delete_member.do",method=RequestMethod.POST)
+	public String delete_member(EmployerInfoVO memberVO, RedirectAttributes rdat) throws Exception{
+		memberService.deleteMember(memberVO.getEMPLYR_ID());
+		rdat.addFlashAttribute("msg", "삭제");
+		return "redirect:/admin/member/list_member.do";
+	}
+	
 	@RequestMapping(value="/admin/member/view_member.do",method=RequestMethod.GET)
 	public String view_member(Model model, @RequestParam("emplyr_id") String emplyr_id) throws Exception{
 		//회원 보기[,수정] 페이지 이동
@@ -33,6 +40,20 @@ public class AdminController {
 		model.addAttribute("codeGroup", memberService.selectGroupMap());
 		return "admin/member/view_member";
 	}
+	@RequestMapping(value="/admin/member/insert_member.do",method=RequestMethod.GET)
+	public String insert_member(Model model) throws Exception{
+		//입력폼 호출
+		model.addAttribute("codeMap", memberService.selectCodeMap("COM999"));
+		model.addAttribute("codeGroup", memberService.selectGroupMap());
+		return "admin/member/insert_member";
+	}
+	@RequestMapping(value="/admin/member/insert_member.do",method=RequestMethod.POST)
+	public String insert_member(EmployerInfoVO memberVO, RedirectAttributes rdat) throws Exception{
+		//입력DB처리 호출
+		memberService.insertMember(memberVO);
+		rdat.addFlashAttribute("msg", "입력");
+		return "redirect:/admin/member/list_member.do";
+	}	
 	@RequestMapping(value="/admin/member/update_member.do",method=RequestMethod.POST)
 	public String update_member(EmployerInfoVO memberVO,RedirectAttributes rdat) throws Exception{
 		//회원수정페이지 DB처리
