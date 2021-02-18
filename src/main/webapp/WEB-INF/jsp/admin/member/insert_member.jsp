@@ -48,7 +48,7 @@
 					<div class="form-group">
 						<label for="PASSWORD">PASSWORD</label> <input type="password"
 							class="form-control" name="PASSWORD" id="PASSWORD"
-							placeholder="암호를 입력해주세요" >
+							placeholder="암호를 입력해주세요" required >
 					</div>
 					<div class="form-group">
 						<label for="PASSWORD_HINT">PASSWORD_HINT</label> 
@@ -153,9 +153,9 @@ $(document).ready(function(){
 	// EMPLYR_ID 중복체크, 이후 submit버튼을 disabled를 false로 활성화 시키면 전송이 가능 => Ajax
 	//blur조건 = focus의 반대말, 선택한것을 벗어났을때
 	$("#EMPLYR_ID").bind("blur",function(){
-		var emplyer_id = $(this).val();
+		var emplyr_id = $(this).val();
 		$.ajax({
-			url:"<c:url value='/' />idcheck?emplyer_id="+emplyer_id,//@ResponseBody사용하는 클래스의 메서드 매핑URL 반환값
+			url:"<c:url value='/' />idcheck.do?emplyr_id="+emplyr_id,//@ResponseBody사용하는 클래스의 메서드 매핑URL 반환값
 			type:"get",//jsp에서 컨트롤러로 보내는 방식
 			dataType:"text",//ajax결과를 컨트롤러 클래스에서 받는 방식
 			success:function(result){

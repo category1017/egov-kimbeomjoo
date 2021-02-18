@@ -15,6 +15,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import edu.human.com.member.service.EmployerInfoVO;
 import edu.human.com.member.service.MemberService;
+import edu.human.com.util.PageVO;
 import egovframework.let.utl.sim.service.EgovFileScrty;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -63,7 +64,8 @@ public class MemberTest {
 		EmployerInfoVO memberVO = new EmployerInfoVO();//고전방식 객체생성
 		//memberVO에 set으로 값을 입력한 이후 DB에 insert함.
 		//emplyr_id는 기본키이기 때문에 중복허용하지 않도록 처리(아래)
-		List<EmployerInfoVO> memberList =  memberService.selectMember();
+		PageVO pageVO = new PageVO();
+		List<EmployerInfoVO> memberList =  memberService.selectMember(pageVO);
 		memberVO.setEMPLYR_ID("user_"+ memberList.size());
 		memberVO.setORGNZT_ID("ORGNZT_0000000000000");//외래키
 		memberVO.setUSER_NM("사용자_"+memberList.size());
@@ -77,7 +79,7 @@ public class MemberTest {
 		memberVO.setHOUSE_ADRES("집주소");
 		memberVO.setGROUP_ID("GROUP_00000000000000");//외래키이기 때문에 부모테이블에 있는 값을 넣어야함.
 		memberVO.setEMPLYR_STTUS_CODE("P");//회원상태코드 P-활성,S-비활성
-		memberVO.setESNTL_ID("USRCNFRM_" + memberList.size());//고유ID이기 때문에 중복되면 안됨.
+		memberVO.setESNTL_ID("USRCNFRM_" + (memberList.size()+1));//고유ID이기 때문에 중복되면 안됨.
 		memberService.insertMember(memberVO);
 	}
 	
@@ -89,7 +91,8 @@ public class MemberTest {
 	
 	@Test
 	public void selectMember() throws Exception {
-		List<EmployerInfoVO> memberList = memberService.selectMember();
+		PageVO pageVO = new PageVO();
+		List<EmployerInfoVO> memberList = memberService.selectMember(pageVO);
 		for(EmployerInfoVO member:memberList) {
 			System.out.println("현재 등록된 회원은 "+ member.toString());
 		}
