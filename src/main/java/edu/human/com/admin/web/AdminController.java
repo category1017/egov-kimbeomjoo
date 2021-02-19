@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +31,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/admin/member/view_member.do",method=RequestMethod.GET)
-	public String view_member(Model model, @RequestParam("emplyr_id") String emplyr_id) throws Exception{
+	public String view_member(@ModelAttribute("pageVO") PageVO pageVO, Model model, @RequestParam("emplyr_id") String emplyr_id) throws Exception{
 		//회원 보기[,수정] 페이지 이동
 		EmployerInfoVO memberVO = memberService.viewMember(emplyr_id);
 		model.addAttribute("memberVO", memberVO); 
@@ -73,16 +74,19 @@ public class AdminController {
 		return "redirect:/admin/member/view_member.do?emplyr_id="+memberVO.getEMPLYR_ID();
 	}
 	@RequestMapping(value="/admin/member/list_member.do",method=RequestMethod.GET)
-	public String list_member(Model model,PageVO pageVO) throws Exception{
+	public String list_member(Model model,@ModelAttribute("pageVO")PageVO pageVO) throws Exception{
 		//회원관리 페이지 이동
 		if(pageVO.getPage()==null) {
 			pageVO.setPage(1);
 		}
 		pageVO.setPerPageNum(5);//하단의 페이징 보여줄개수
 		pageVO.setQueryPerPageNum(10);//쿼리에서 1페이지당 보여줄 개수=화면에서 1페이지당 보여줌
+		List<EmployerInfoVO> listMember = memberService.selectMember(pageVO);
 		//전체페이지 개수는 자동계산 =total카운트를 계산순간(아래)
-		List<EmployerInfoVO> ListMember = memberService.selectMember(pageVO);
-		model.addAttribute("listMember", ListMember);
+		System.out.println("현재 검색된 회원의 total카운트는 : "+ listMember.size());
+		pageVO.setTotalCount(2);
+		model.addAttribute("listMember", listMember);
+		//model.addAttribute("pageVO",pageVO);//jsp로 보내는 대신에 @ModelAttribute사용
 		return "admin/member/list_member";
 	}
 	@RequestMapping(value="/admin/home.do", method=RequestMethod.GET)

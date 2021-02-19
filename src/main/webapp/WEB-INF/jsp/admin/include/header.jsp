@@ -121,9 +121,15 @@ if("${msg}"!=''){//RedirectAttributes 로 컨트롤러에서 보내옴 값을 �
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./board_list.html" class="nav-link">
+                <a href="<c:url value='/'/>admin/board/list_board.do?bbsId=BBSMSTR_AAAAAAAAAAAA" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>게시물 관리</p>
+                  <p>공지사항 관리</p>
+                </a>
+              </li>
+               <li class="nav-item">
+                <a href="<c:url value='/'/>admin/board/list_board.do?bbsId=BBSMSTR_BBBBBBBBBBBB" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>갤러리 관리</p>
                 </a>
               </li>
             </ul>
