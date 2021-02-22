@@ -55,14 +55,19 @@
 									<hr>
 									<!--horizontal 수평선 태그 -->
 									<strong><i class="fas fa-pencil-alt mr-1"></i>작성자</strong>
-									<p class="text-muted">admin</p>
-
+									<p class="text-muted">
+									${result.ntcrId}
+									</p>
+									<c:if test="${not empty result.atchFileId}">
 									<hr>
 									<!--horizontal 수평선 태그 -->
 									<strong><i class="fas fa-save mr-1"></i>첨부파일</strong>
 									<p class="text-muted">
-										<a href="#">파일다운로드</a>
+									<c:import url="/cmm/fms/selectFileInfs.do" charEncoding="utf-8">
+					                    <c:param name="param_atchFileId" value="${result.atchFileId}" />
+					                </c:import>
 									</p>
+									</c:if>
 
 								</div>
 								<!-- /.card-body -->
@@ -70,25 +75,15 @@
 
 							<!-- 버튼영역 시작 -->
 							<div class="card-body">
-								<a href="board_list.html"
-									class="btn btn-primary float-right mr-1">LIST ALL</a> <a
-									href="board_list.html" class="btn btn-danger float-right mr-1">DELETE</a>
-								<a href="board_write.html"
-									class="btn btn-warning float-right mr-1 text-white">UPDATE</a>
-								<!-- 부트스트랩 디자인 버튼클래스를 이용해서 a태그를 버튼모양으로 만들기(위) -->
-								<!-- btn클래스명이 버튼모양으로 변경, btn-primary클래스명은 버튼색상을 변경하는 역할 -->
-								<!-- style이 아닌 class인 이유 부트스트랩에 이미 style이 적용되어있어서 -->
-
-
+								<button id="btn_list" type="button" class="btn btn-primary float-right mr-1">목록</button>
+								<button id="btn_delete" type="button" class="btn btn-danger float-right mr-1">삭제</button>
+								<button id="btn_update" type="button" class="btn btn-warning float-right mr-1 text-white">수정</button>
 							</div>
 							<!-- 버튼영역  끝 -->
-						
 						</div>
 						<!-- col-12 끝 -->
 					</div>
 					<!-- //row 끝 -->
-
-
 				</div>
 				<!-- /.container-fluid -->
 			</section>
@@ -97,3 +92,28 @@
 		<!-- /.content-wrapper -->
 
 <%@ include file="../include/footer.jsp" %>
+<form name="frm" method="post" action="<c:url value='/admin/board/list_board.do'/>">
+	<input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>">
+	<input type="hidden" name="bbsId" value="<c:out value='${result.bbsId}'/>" >
+	<input type="hidden" name="nttId" value="<c:out value='${result.nttId}'/>" >
+	<input type="hidden" name="parnts" value="<c:out value='${result.parnts}'/>" >
+	<input type="hidden" name="sortOrdr" value="<c:out value='${result.sortOrdr}'/>" >
+	<input type="hidden" name="replyLc" value="<c:out value='${result.replyLc}'/>" >
+	<input type="hidden" name="nttSj" value="<c:out value='${result.nttSj}'/>" >
+</form>
+<script>
+$(document).ready(function(){
+	var action_form = $("form[name='frm']")
+	$("#btn_list").on("click",function(){
+		action_form.submit();
+	});
+	$("#btn_delete").on("click",function(){
+		if(confirm("정말로 삭제하시겠습니까?")){
+			action_form.attr("action","<c:url value='/admin/board/delete_board.do' />");
+			action_form.submit();
+		}
+	});
+	$("#btn_update").on("click",function(){});
+	//alert("준비중 입니다.")
+});
+</script>
