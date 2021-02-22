@@ -99,7 +99,7 @@
 	                        <input type="hidden" name="bbsAttrbCode" value="<c:out value='${brdMstrVO.bbsAttrbCode}'/>" />
 	                        <input type="hidden" name="authFlag" value="<c:out value='${brdMstrVO.authFlag}'/>" />
 	                        <input name="pageIndex" type="hidden" value="<c:out value='${searchVO.pageIndex}'/>"/>
-	                        <span class="btn_submit" style="cursor:pointer;">${result.nttSj}</span>
+	                        <span class="btn_submit" style="cursor:pointer;"><c:out value='${result.nttSj}'/></span>
 	                      </form>
 	                      </td> 
 	                      <td>${result.frstRegisterNm}</td>
