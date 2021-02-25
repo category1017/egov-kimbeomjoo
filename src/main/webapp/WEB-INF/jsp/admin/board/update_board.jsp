@@ -104,7 +104,6 @@
 									<input name="ntceBgnde" type="hidden" value="10000101">
                 					<input name="ntceEndde" type="hidden" value="99991231">
 									
-									<input type="hidden" name="atchFileId" value="${result.atchFileId}">
 									<input type="hidden" name="fileSn" value="0" >
 							</form>
 							<!-- 폼내부에 버튼이 있어야지만, 전송버튼이 작동 됩니다. -->
