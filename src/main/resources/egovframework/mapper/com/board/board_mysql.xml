@@ -4,4 +4,10 @@
 <delete id="delete_board">
 delete from lettnbbs where ntt_id = #{nttId}
 </delete>
+<delete id="delete_attach">
+delete from lettnfile where atch_file_id = #{atchFileId}
+</delete>
+<delete id="delete_attach_detail">
+delete from lettnfiledetail where atch_file_id = #{atchFileId} 
+</delete>
 </mapper>

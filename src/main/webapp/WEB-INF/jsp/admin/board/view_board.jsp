@@ -100,6 +100,8 @@
 	<input type="hidden" name="sortOrdr" value="<c:out value='${result.sortOrdr}'/>" >
 	<input type="hidden" name="replyLc" value="<c:out value='${result.replyLc}'/>" >
 	<input type="hidden" name="nttSj" value="<c:out value='${result.nttSj}'/>" >
+	<input type="hidden" name="atchFileId" value="${result.atchFileId}">
+	<input type="hidden" name="fileSn" value="0" >
 </form>
 <script>
 $(document).ready(function(){

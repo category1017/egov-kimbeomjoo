@@ -18,4 +18,15 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.delete_board(nttId); 
 	}
 
+	@Override
+	public Integer delete_attach(String atchFileId) throws Exception {
+		// DAO호출 2개 지우는 순서는 역순 
+		//bbs(할아버지)->attach(아들)->attachdetail(손자)
+		int result=0;
+		if(boardDAO.delete_attach_detail(atchFileId)>0) {
+			result = boardDAO.delete_attach(atchFileId);
+		}
+		return result;
+	}
+
 }

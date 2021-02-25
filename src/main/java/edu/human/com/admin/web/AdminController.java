@@ -1,5 +1,6 @@
 package edu.human.com.admin.web;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -52,13 +53,28 @@ public class AdminController {
 	@Autowired
 	private EgovFileMngService fileMngService;
 	
+	
 	@RequestMapping("/admin/board/delete_board.do")
-	public String delete_board(BoardVO boardVO, RedirectAttributes rdat) throws Exception {
-		FileVO fileVO = new FileVO();
-		if(boardVO.getAtchFileId()!=null || !"".equals(boardVO.getAtchFileId())) {
-			fileVO.setAtchFileId(boardVO.getAtchFileId());
-			fileMngService.deleteAllFileInf(fileVO);
+	public String delete_board(FileVO fileVO, BoardVO boardVO, RedirectAttributes rdat) throws Exception {
+		//FileVO fileVO = new FileVO();
+		if(boardVO.getAtchFileId()!=null && !"".equals(boardVO.getAtchFileId())) {
+			System.out.println("디버그:첨부파일ID"+boardVO.getAtchFileId());
+			//fileVO.setAtchFileId(boardVO.getAtchFileId());
+			//fileMngService.deleteAllFileInf(fileVO);//USE_AT=''N'삭제 x 
+			//물리 파일 지우려면 2가지값 필수: FILE_STRE_COURS , STRE_FILE_NM 파일저장명, 파일저장이름
+			//실제 폴더에서 파일도 삭제(아래)
+			if(fileVO.getAtchFileId() !=null && fileVO.getAtchFileId() !="") {
+				FileVO delfileVO = fileMngService.selectFileInf(fileVO);
+				File target = new File(delfileVO.getFileStreCours(), delfileVO.getStreFileNm());
+				if(target.exists()) {
+					target.delete();//폴더에서 기존첨부파일 지우기
+					System.out.println("디버그:첨부파일삭제OK");
+				}
+			}
+			//첨부파일 레코드삭제(아래)
+			boardService.delete_attach(boardVO.getAtchFileId());//게시물에 딸린 첨부파일테이블 2개 레코드삭제
 		}		
+		//게시물 레코드삭제(아래)
 		boardService.delete_board((int)boardVO.getNttId());
 		rdat.addFlashAttribute("msg", "삭제");
 		return "redirect:/admin/board/list_board.do?bbsId="+boardVO.getBbsId();
