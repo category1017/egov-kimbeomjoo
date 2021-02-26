@@ -8,6 +8,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 @Controller
 public class HomeController {
 	
+	@RequestMapping("/tiles/login.do")
+	public String login() throws Exception{
+		return "login.tiles";
+	}
 	@RequestMapping("/logout.do")
 	public String logout() throws Exception {
 		RequestContextHolder.getRequestAttributes().removeAttribute("LoginVO", RequestAttributes.SCOPE_SESSION);
@@ -15,9 +19,9 @@ public class HomeController {
 		return "redirect:/";
 	}
 	//method.Requestmethod=GET[POST]없이 사용하면, 둘다 허용되는 매핑이 됨.
-	@RequestMapping("/home.do")
+	@RequestMapping("/tiles/home.do")
 	public String home() throws Exception {
 		
-		return "home/home";
+		return "home.tiles";
 	}
 }
