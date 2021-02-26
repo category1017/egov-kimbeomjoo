@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -7,15 +8,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<link rel="stylesheet" href="/sht_webapp/resources/home/css/reset.css"><!-- 상대경로 절대경로로 변경  /로 시작 -->
-<link rel="stylesheet" href="/sht_webapp/resources/home/css/main.css">
-<link rel="stylesheet" href="/sht_webapp/resources/home/css/tablet.css">
-<link rel="stylesheet" href="/sht_webapp/resources/home/css/pc.css">
-<script src="/sht_webapp/resources/home/js/jquery-1.11.3.min.js"></script>
-<script src="/sht_webapp/resources/home/js/jquery.smooth-scroll.min.js"></script>
-<script src="/sht_webapp/resources/home/js/main.js"></script>
+<link rel="stylesheet" href="<c:url value='/' />resources/home/css/reset.css"><!-- 상대경로 절대경로로 변경  /로 시작 -->
+<link rel="stylesheet" href="<c:url value='/' />resources/home/css/main.css">
+<link rel="stylesheet" href="<c:url value='/' />resources/home/css/tablet.css">
+<link rel="stylesheet" href="<c:url value='/' />resources/home/css/pc.css">
+<script src="<c:url value='/' />resources/home/js/jquery-1.11.3.min.js"></script>
+<script src="<c:url value='/' />resources/home/js/jquery.smooth-scroll.min.js"></script>
+<script src="<c:url value='/' />resources/home/js/main.js"></script>
 <!-- 슬라이드용 -->
-<script src="/sht_webapp/resources/home/js/rollmain.js"></script>
+<script src="<c:url value='/' />resources/home/js/rollmain.js"></script>
 <!-- //슬라이드용 --> 
 <style>
 
@@ -41,12 +42,16 @@ $(document).ready(function() {
 			<p class="openMOgnb"><a href="#"><b class="hdd">메뉴열기</b> <span></span><span></span><span></span></a></p>
 			<div class="header_cont">
 				<ul class="util clear">
-					<li><a href="login.html">로그인</a></li>
-					<li><a href="join.html">회원가입</a></li>
-					<!-- 로그인 후 보이는 메뉴(아래) -->
-					<li><a href="#">000님 환영합니다.</a></li>
-					<li><a href="mypage.html">마이페이지</a></li>
-					<li><a href="/admin">AdminLTE</a></li>
+					<li><a href="<c:url value='/cmm/main/mainPage.do' />">OLD전자정부사이트</a>
+					<c:if test="${LoginVO.id eq null || LoginVO.id eq ''}">
+						<li><a href="login.html">로그인</a></li>
+					</c:if>
+					<c:if test="${LoginVO.id ne null }">
+						<!-- 로그인 후 보이는 메뉴(아래) -->
+						<li><a href="#">${LoginVO.name}님 환영합니다.</a></li>
+						<li><a href="<c:url value='/logout.do'/>">로그아웃</a></li>
+						<li><a href="<c:url value='/admin/home.do' />">AdminLTE</a></li>
+					</c:if>
 				</ul>	
 				<nav>
 				<ul class="gnb clear">
@@ -107,11 +112,11 @@ $(document).ready(function() {
                 <!-- 슬라이드버튼영역 -->
                 <div class="rollbtnArea">
                     <ul class="rollingbtn">
-                        <li class="seq butt0"><a href="#butt"><img src="/sht_webapp/resources/home/img/btn_rollbutt_on.png" alt="1번" /></a></li>
-                        <li class="seq butt1"><a href="#butt"><img src="/sht_webapp/resources/home/img/btn_rollbutt_off.png" alt="2번" /></a></li>
-                        <li class="seq butt2"><a href="#butt"><img src="/sht_webapp/resources/home/img/btn_rollbutt_off.png" alt="3번" /></a></li>
-                        <li class="rollstop"><a href="#" class="stop"><img src="/sht_webapp/resources/home/img/btn_roll_stop.png" alt="멈춤" /></a></li>
-                        <li class="rollplay"><a href="#" class="play"><img src="/sht_webapp/resources/home/img/btn_roll_play.png" alt="재생" /></a></li>
+                        <li class="seq butt0"><a href="#butt"><img src="<c:url value='/' />resources/home/img/btn_rollbutt_on.png" alt="1번" /></a></li>
+                        <li class="seq butt1"><a href="#butt"><img src="<c:url value='/' />resources/home/img/btn_rollbutt_off.png" alt="2번" /></a></li>
+                        <li class="seq butt2"><a href="#butt"><img src="<c:url value='/' />resources/home/img/btn_rollbutt_off.png" alt="3번" /></a></li>
+                        <li class="rollstop"><a href="#" class="stop"><img src="<c:url value='/' />resources/home/img/btn_roll_stop.png" alt="멈춤" /></a></li>
+                        <li class="rollplay"><a href="#" class="play"><img src="<c:url value='/' />resources/home/img/btn_roll_play.png" alt="재생" /></a></li>
                     </ul>
                 </div>
                 <!-- //슬라이드버튼영역 -->
@@ -125,19 +130,19 @@ $(document).ready(function() {
 			<div class="about_box">
 				<ul class="place_list box_inner clear">
 					<li><a href="#" onclick="$('.popup_base').css('height',$(document).height());$('.contact_pop').show();">
-							<img class="img_topplace" src="/sht_webapp/resources/home/img/no_image.png" alt="OOOO OOOOO" style="opacity:0.7;" />
+							<img class="img_topplace" src="<c:url value='/' />resources/home/img/no_image.png" alt="OOOO OOOOO" style="opacity:0.7;" />
 							<h3>OOOO OOOOO</h3>
 							<p class="txt">OOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOO!</p>
 							<span class="view">VIEW</span></a>
 					</li>
 					<li><a href="#" onclick="$('.popup_base').css('height',$(document).height());$('.space_pop').show();">
-							<img class="img_topplace" src="/sht_webapp/resources/home/img/no_image.png" alt="OOOO OOOOO" style="opacity:0.7;"/>
+							<img class="img_topplace" src="<c:url value='/' />resources/home/img/no_image.png" alt="OOOO OOOOO" style="opacity:0.7;"/>
 							<h3>OOOO OOOOO</h3>
 							<p class="txt">OOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOO.</p>
 							<span class="view">VIEW</span></a>
 					</li>
 					<li><a href="#" onclick="$('.popup_base').css('height',$(document).height());$('.program_pop').show();">
-							<img class="img_topplace" src="/sht_webapp/resources/home/img/no_image.png" alt="OOOO OOOOO" style="opacity:0.7;" />
+							<img class="img_topplace" src="<c:url value='/' />resources/home/img/no_image.png" alt="OOOO OOOOO" style="opacity:0.7;" />
 							<h3>OOOO OOOOO</h3>
 							<p class="txt">OOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOO</p>
 							<span class="view">VIEW</span></a>
