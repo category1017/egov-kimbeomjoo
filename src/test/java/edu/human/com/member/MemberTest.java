@@ -65,6 +65,9 @@ public class MemberTest {
 		//memberVO에 set으로 값을 입력한 이후 DB에 insert함.
 		//emplyr_id는 기본키이기 때문에 중복허용하지 않도록 처리(아래)
 		PageVO pageVO = new PageVO();
+		pageVO.setPage(1);
+		pageVO.setPerPageNum(10);
+		pageVO.setQueryPerPageNum(10000);//JUnit테스트 전용으로 쿼리 Limit 두번째인자값을 10000개정도로 해서 에러가 나지 않도록한다. 
 		List<EmployerInfoVO> memberList =  memberService.selectMember(pageVO);
 		memberVO.setEMPLYR_ID("user_"+ memberList.size());
 		memberVO.setORGNZT_ID("ORGNZT_0000000000000");//외래키
