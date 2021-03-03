@@ -73,7 +73,7 @@
                   <tbody>
                   <c:forEach items="${listMember}" var="memberVO">
                     <tr>
-                      <td><a href="<c:url value='/admin/member/view_member.do?emplyr_id=${memberVO.EMPLYR_ID}PageVO=${pageVO.page}&amp;search_type=${pageVO.search_type}&amp;search_keyword=${pageVO.search_keyword}' />">${memberVO.EMPLYR_ID}</a></td>
+                      <td><a href="<c:url value='/admin/member/view_member.do?emplyr_id=${memberVO.EMPLYR_ID}&amp;PageVO=${pageVO.page}&amp;search_type=${pageVO.search_type}&amp;search_keyword=${pageVO.search_keyword}' />">${memberVO.EMPLYR_ID}</a></td>
                       <!-- 위에 a링크값은 리스트가 늘어날수록 동적으로 user_id 값이 변하게 됩니다. 개발자가 jsp로 처리 -->
                       <td>${memberVO.USER_NM}</td>
                       <td>${memberVO.EMAIL_ADRES}</td>
