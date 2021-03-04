@@ -9,6 +9,12 @@
 	height: 35px;
 	border: 1px solid #ccc;
 }
+.btn_submit {
+	cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 0.95em;
+}
 </style>
 	<!-- 메인콘텐츠영역 -->
 	<div id="container">
@@ -60,13 +66,30 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${resultList}" var="boardVO" varStatus="cnt"> 
+					<c:forEach items="${resultList}" var="result" varStatus="cnt"> 
 						<tr>
 							<td>${paginationInfo.totalRecordCount+1-((searchVO.pageIndex-1)*searchVO.pageSize+cnt.count)}</td>
 							<td class="tit_notice">
-								<a href="#">${boardVO.nttSj}</a></td>
-							<td>${boardVO.inqireCo}</td>
-							<td>${boardVO.frstRegisterPnttm}</td>
+								<form name="view_form" action="<c:url value='/tiles/board/view_board.do' />" method="post">
+			                      <!-- 답글일경우 계단식표시 추가(아래) -->
+			                      <c:if test="${boardVO.replyLc!=0}">
+					                <c:forEach begin="0" end="${boardVO.replyLc}" step="1">
+					                    &nbsp;<!-- 들여쓰기 역할하는 스페이스바 특수문자 -->
+					                </c:forEach>
+					                &#8627;<!-- 화살표 특수문자 -->
+					              </c:if>
+			                      	<input type="hidden" name="bbsId" value="<c:out value='${result.bbsId}'/>" />
+			                        <input type="hidden" name="nttId"  value="<c:out value="${result.nttId}"/>" />
+			                        <input type="hidden" name="bbsTyCode" value="<c:out value='${brdMstrVO.bbsTyCode}'/>" />
+			                        <input type="hidden" name="bbsAttrbCode" value="<c:out value='${brdMstrVO.bbsAttrbCode}'/>" />
+			                        <input type="hidden" name="authFlag" value="<c:out value='${brdMstrVO.authFlag}'/>" />
+			                        <input name="pageIndex" type="hidden" value="<c:out value='${searchVO.pageIndex}'/>"/>
+			                        <button class="btn_submit" style="cursor:pointer;"><c:out value="${result.nttSj}" /></button>
+		                      </form>
+							</td>
+							<td>${result.inqireCo}</td>
+							<td>${result.frstRegisterPnttm}</td>
+							
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -80,7 +103,7 @@
             <!-- 페이징처리 끝 -->
 			
 			<p class="btn_line">
-				<a href="board_write.html" class="btn_baseColor">등록</a>
+				<a href="<c:url value='/tiles/board/insert_board.do?bbsId==${boardVO.bbsId}' />" class="btn_baseColor">등록</a>
 			</p>
 		</div>
 		<!-- //메인본문영역 -->
