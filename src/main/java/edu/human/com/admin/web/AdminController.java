@@ -243,7 +243,7 @@ public class AdminController {
 	
 	//게시물 수정 화면을 호출 POST
 	@RequestMapping("/admin/board/update_board_form.do")
-	public String updqte_board(@ModelAttribute("searchVO") BoardVO boardVO, @ModelAttribute("board") BoardVO vo, ModelMap model)
+	public String update_board(@ModelAttribute("searchVO") BoardVO boardVO, @ModelAttribute("board") BoardVO vo, ModelMap model)
 		    throws Exception {
 
 		// 로그인체크(로그인 되지 않았으면 로그인페이지로 이동처리)
