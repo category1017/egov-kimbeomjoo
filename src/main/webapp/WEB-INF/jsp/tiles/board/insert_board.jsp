@@ -8,10 +8,10 @@
 <script src="<c:url value='/' />resources/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLte -->
 <link rel="stylesheet" href="<c:url value='/' />resources/dist/css/adminlte.min.css">	
-<!-- write.html은 서머노트 웹에디터 부분 추가(아래) -->
+<!-- write.html은 섬머노트 웹에디터 부분 추가(아래) -->
 <link rel="stylesheet" href="<c:url value='/' />resources/plugins/summernote/summernote.css">
 <script src="<c:url value='/' />resources/plugins/summernote/summernote.js"></script>
-	<!-- 메인콘텐츠영역 -->
+<!-- 메인콘텐츠영역 -->
 	<div id="container">
 		<!-- 메인상단위치표시영역 -->
 		<div class="location_area customer">
@@ -20,7 +20,7 @@
 				<p class="location">고객센터 <span class="path">/</span> ${brdMstrVO.bbsNm}</p>
 				<ul class="page_menu clear">
 					<li><a href="<c:url value='/tiles/board/list_board.do?bbsId=BBSMSTR_AAAAAAAAAAAA' />" class="<c:out value='${brdMstrVO.bbsId=="BBSMSTR_AAAAAAAAAAAA"?"on":""}' />">공지사항</a></li>
-					<li><a href="<c:url value='/tiles/board/list_board.do?bbsId=BBSMSTR_BBBBBBBBBBBB' />" class="<c:out value='${brdMstrVO.bbsId=="BBSMSTR_BBBBBBBBBBBB"?"on":""}' />">갤러리</a></li>
+					<li><a href="<c:url value='/tiles/board/list_board.do?bbsId=BBSMSTR_BBBBBBBBBBBB' />" class="<c:out value='${brdMstrVO.bbsId=="BBSMSTR_BBBBBBBBBBBB"?"on":""}' />">겔러리</a></li>
 				</ul>
 			</div>
 		</div>	
@@ -66,16 +66,15 @@
 		<!-- //메인본문영역 -->
 	</div>
 	<!-- //메이콘텐츠영역 -->
-	
+
 	<!-- 첨부파일 부트스트랩 디자인 JS -->
-	<script src="<c: url value='/' />resources/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+	<script src="<c:url value='/' />resources/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 	<!-- 첨부파일 선택한 내용 출력 실행 -->
 	<script>
 	$(document).ready(function () {
 	  bsCustomFileInput.init();
 	});
 	</script>
-	
 	<script>
 	$(document).ready(function(){
 		$('#content_lbl').summernote({
@@ -97,5 +96,4 @@
 			fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
 		});
 	});//textarea 중 content아이디영역을 섬머노트에디터로 변경처리 함수실행
-	</script>
-	
+	</script> 
