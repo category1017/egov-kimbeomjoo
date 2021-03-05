@@ -28,24 +28,26 @@
 
 		<!-- 메인본문영역 -->
 		<div class="bodytext_area box_inner">
-			<!-- 폼영역 -->
-			<form method="POST" name="board_write" action="board_write.html" class="appForm">
+			<!-- 폼영역 : 첨부파일 작업 -->
+			<form encType="multipart/form-data" method="POST" name="form_insert" action="<c:url value='/tiles/board/insert_board.do' />" class="appForm">
 				<fieldset>
 					<legend>상담문의 입력 양식</legend>
 					<p class="info_pilsoo pilsoo_item">필수입력</p>
 					<ul class="app_list">
 						<li class="clear">
 							<label for="title_lbl" class="tit_lbl pilsoo_item">제목</label>
-							<div class="app_content"><input type="text" name="title" class="w100p" id="title_lbl" placeholder="제목을 입력해주세요" required/></div>
+							<div class="app_content"><input type="text" name="nttSj" class="w100p" id="title_lbl" placeholder="제목을 입력해주세요" required/></div>
 						</li>
 						<li class="clear">
 							<label for="content_lbl" class="tit_lbl pilsoo_item">내용</label>
 							<div class="app_content">
-								<textarea name="content" id="content_lbl" class="w100p" placeholder="내용을 입력해주세요." required></textarea></div>
+								<textarea name="nttCn" id="content_lbl" class="w100p" placeholder="내용을 입력해주세요." required></textarea></div>
 						</li>
 						<li class="clear">
 							<label for="name_lbl" class="tit_lbl pilsoo_item">작성자명</label>
-							<div class="app_content"><input type="text" name="name" class="w100p" id="name_lbl" placeholder="이름을 입력해주세요" required/></div>
+							<div class="app_content">
+							<input disabled value="${LoginVO.name}" type="text" name="frstRegisterNm" class="w100p" id="name_lbl" placeholder="이름을 입력해주세요" required/>
+							</div>
 						</li>
 						<li class="clear">
 		                    <label for="file_lbl" class="tit_lbl">첨부파일</label>
@@ -56,17 +58,42 @@
 		                </li>
 					</ul>
 					<p class="btn_line">
-					<button class="btn_baseColor">등록</button>
-					<a href="board_list.html" class="btn_baseColor">목록</a>
+					<button type="submit" class="btn_baseColor">등록</button>
+					<button type="button" id="btn_list" class="btn_baseColor">목록</a>
 					</p>	
 				</fieldset>
+				<input name="pageIndex" type="hidden" value="<c:out value='${searchVO.pageIndex}'/>"/>
+				<input type="hidden" name="bbsId" value="<c:out value='${bdMstr.bbsId}'/>" />
+				<input type="hidden" name="bbsAttrbCode" value="<c:out value='${bdMstr.bbsAttrbCode}'/>" />
+				<input type="hidden" name="bbsTyCode" value="<c:out value='${bdMstr.bbsTyCode}'/>" />
+				<input type="hidden" name="replyPosblAt" value="<c:out value='${bdMstr.replyPosblAt}'/>" />
+				<input type="hidden" name="fileAtchPosblAt" value="<c:out value='${bdMstr.fileAtchPosblAt}'/>" />
+				<input type="hidden" name="posblAtchFileNumber" value="<c:out value='${bdMstr.posblAtchFileNumber}'/>" />
+				<input type="hidden" name="posblAtchFileSize" value="<c:out value='${bdMstr.posblAtchFileSize}'/>" />
+				<input type="hidden" name="tmplatId" value="<c:out value='${bdMstr.tmplatId}'/>" />
+				<input type="hidden" name="cal_url" value="<c:url value='/sym/cmm/EgovNormalCalPopup.do'/>" />
+				<input type="hidden" name="authFlag" value="<c:out value='${bdMstr.authFlag}'/>" />
+				<input type="hidden" name="ntcrNm" value="dummy">   <!-- validator 처리를 위해 지정 -->
+				<input type="hidden" name="password" value="dummy"> <!-- validator 처리를 위해 지정 -->
+				<input name="ntceBgnde" type="hidden" value="10000101">
+			    <input name="ntceEndde" type="hidden" value="99991231">
+	 		    <input type="hidden" name="fileSn" value="0">
 			</form>
 			<!-- //폼영역 -->
 		</div>
 		<!-- //메인본문영역 -->
 	</div>
 	<!-- //메이콘텐츠영역 -->
-
+	<!-- 버튼액션 J쿼리 -->
+	<script>
+	$(document).ready(function(){
+		var form_element = $("form[name='form_insert']");
+		$("#btn_list").on("click",function(){
+			form_element.attr("action","<c:url value='/tiles/board/list_board.do' />");
+			form_element.submit();
+		});
+	});
+	</script>
 	<!-- 첨부파일 부트스트랩 디자인 JS -->
 	<script src="<c:url value='/' />resources/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 	<!-- 첨부파일 선택한 내용 출력 실행 -->

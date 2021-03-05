@@ -1,5 +1,7 @@
 package edu.human.com.home.web;
 
+import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -7,15 +9,28 @@ import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springmodules.validation.bean.BeanValidator;
+import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import edu.human.com.board.service.BoardService;
 import edu.human.com.util.CommonUtil;
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovFileMngService;
+import egovframework.com.cmm.service.EgovFileMngUtil;
+import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
+import egovframework.let.cop.bbs.service.Board;
+import egovframework.let.cop.bbs.service.BoardMaster;
 import egovframework.let.cop.bbs.service.BoardMasterVO;
 import egovframework.let.cop.bbs.service.BoardVO;
 import egovframework.let.cop.bbs.service.EgovBBSAttributeManageService;
@@ -34,16 +49,114 @@ public class HomeController {
 	private EgovBBSManageService bbsMngService;
 	@Autowired
 	private EgovMessageSource egovMessageSource;
+	@Autowired
+	private DefaultBeanValidator beanValidator;
+	@Autowired
+	private EgovFileMngUtil fileUtil;
+	@Autowired
+	private EgovFileMngService fileMngService;
 	
 	@Inject
 	private CommonUtil commUtil;
+	@Inject
+	private BoardService boardService;
 	
+	@RequestMapping("/tiles/board/delete_board.do")
+	public String delete_board(FileVO fileVO, BoardVO boardVO, RedirectAttributes rdat) throws Exception {
+		//FileVO fileVO = new FileVO();
+		if(boardVO.getAtchFileId()!=null && !"".equals(boardVO.getAtchFileId())) {
+			System.out.println("디버그:첨부파일ID"+boardVO.getAtchFileId());
+			//fileVO.setAtchFileId(boardVO.getAtchFileId());
+			//fileMngService.deleteAllFileInf(fileVO);//USE_AT=''N'삭제 x 
+			//물리 파일 지우려면 2가지값 필수: FILE_STRE_COURS , STRE_FILE_NM 파일저장명, 파일저장이름
+			//실제 폴더에서 파일도 삭제(아래 1개만 삭제하는 로직-> 여러개 삭제하는 로직 변경)
+			if(fileVO.getAtchFileId() !=null && fileVO.getAtchFileId() !="") {
+				List<FileVO> fileList = fileMngService.selectFileInfs(fileVO);
+				for(FileVO oneFileVO:fileList) {
+					FileVO delfileVO = fileMngService.selectFileInf(oneFileVO);
+					File target = new File(delfileVO.getFileStreCours(), delfileVO.getStreFileNm());
+					if(target.exists()) {
+						target.delete();//폴더에서 기존첨부파일 지우기
+						System.out.println("디버그:첨부파일삭제OK");
+					}
+				}
+			}
+			//첨부파일 레코드삭제(아래)
+			System.out.println("디버그 첨부파일 아이디1"+fileVO.getAtchFileId());
+			boardService.delete_attach(boardVO.getAtchFileId());//게시물에 딸린 첨부파일테이블 2개 레코드삭제
+			
+		}		
+		//게시물 레코드삭제(아래)
+		boardService.delete_board((int)boardVO.getNttId());
+		rdat.addFlashAttribute("msg", "삭제");
+		return "redirect:/tiles/board/list_board.do?bbsId="+boardVO.getBbsId();
+	}
+	@RequestMapping("/tiles/board/insert_board.do")
+	public String insert_board(final MultipartHttpServletRequest multiRequest, @ModelAttribute("searchVO") BoardVO boardVO,
+		    @ModelAttribute("bdMstr") BoardMaster bdMstr, @ModelAttribute("board") Board board, BindingResult bindingResult, SessionStatus status,
+		    ModelMap model) throws Exception {
+		// 사용자권한 처리
+		if(!EgovUserDetailsHelper.isAuthenticated()) {
+			model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
+	    	return "login.tiles";
+		}
+
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+
+		beanValidator.validate(board, bindingResult);
+		if (bindingResult.hasErrors()) {//전송값이 문자인데 필드값은 날짜일때 바인딩 에러가 발생때 if문 
+
+		    BoardMasterVO master = new BoardMasterVO();
+		    BoardMasterVO vo = new BoardMasterVO();
+
+		    vo.setBbsId(boardVO.getBbsId());
+		    vo.setUniqId(user.getUniqId());
+
+		    master = bbsAttrbService.selectBBSMasterInf(vo);
+
+		    model.addAttribute("bdMstr", master);
+
+		    //----------------------------
+		    // 기본 BBS template 지정
+		    //----------------------------
+		    if (master.getTmplatCours() == null || master.getTmplatCours().equals("")) {
+			master.setTmplatCours("/css/egovframework/cop/bbs/egovBaseTemplate.css");
+		    }
+
+		    model.addAttribute("brdMstrVO", master);
+		    ////-----------------------------
+
+		    return "/board/insert_board.tiles";
+		}
+
+		if (isAuthenticated) {
+		    List<FileVO> result = null;
+		    String atchFileId = "";
+
+		    final Map<String, MultipartFile> files = multiRequest.getFileMap();
+		    if (!files.isEmpty()) {
+			result = fileUtil.parseFileInf(files, "BBS_", 0, "", "");
+			atchFileId = fileMngService.insertFileInfs(result);
+		    }
+		    board.setAtchFileId(atchFileId);
+		    board.setFrstRegisterId(user.getUniqId());
+		    board.setBbsId(board.getBbsId());
+
+		    board.setNtcrNm("");	// dummy 오류 수정 (익명이 아닌 경우 validator 처리를 위해 dummy로 지정됨)
+		    board.setPassword("");	// dummy 오류 수정 (익명이 아닌 경우 validator 처리를 위해 dummy로 지정됨)
+		    //board.setNttCn(unscript(board.getNttCn()));	// XSS 방지
+
+		    bbsMngService.insertBoardArticle(board);
+		}
+		return "redirect:/tiles/board/list_board.do?bbsId="+board.getBbsId();
+	}
 	@RequestMapping("/tiles/board/insert_board_form.do")
 	public String insert_board_form(@ModelAttribute("searchVO") BoardVO boardVO, ModelMap model) throws Exception {
 		// 사용자권한 처리
 		if(!EgovUserDetailsHelper.isAuthenticated()) {
 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
-	    	return "cmm/uat/uia/EgovLoginUsr";
+	    	return "login.tiles";
 		}
 
 	    LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
