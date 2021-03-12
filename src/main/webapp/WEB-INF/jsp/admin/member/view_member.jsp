@@ -94,36 +94,34 @@
 							class="form-control" name="ORGNZT_ID" id="ORGNZT_ID"
 							placeholder="소속기관을 입력해주세요" required>
 					</div>
-					<div class="form-group">
-						<label for="EMPLYR_STTUS_CODE">EMPLYR_STTUS_CODE</label> 
-					<select class="form-control" name="EMPLYR_STTUS_CODE" id="EMPLYR_STTUS_CODE">
+					 <div class="form-group">
+                  	<label for="EMPLYR_STTUS_CODE">EMPLYR_STTUS_CODE</label>
+                  	<select class="form-control" name="EMPLYR_STTUS_CODE" id="EMPLYR_STTUS_CODE">
 	                  	<c:forEach items="${codeMap}" var="sub">
-	                  		<option value="${sub.value.CODE}" >${sub.value.CODE_NM}</option>
+	                  		<option value="${sub.value.CODE}" <c:out value="${(memberVO.EMPLYR_STTUS_CODE==sub.value.CODE)?'selected':''}" />>${sub.value.CODE_NM}</option>
 	                  	</c:forEach>
                   	</select>
-                  	<!-- 위코드 설명 : 맵자료형을 jstl에서 출력하기(아래) -->
-                  	<!-- codeMap자료 => {P={CODE=P, CODE_NM=활성}, S={CODE=S, CODE_NM=비활성}} 
+                  	<!-- 위 코드 설명: 맵자료형을 jstl에서 출력하기 (아래) -->
+                  	<!-- codeMap자료-> {P={CODE=P, CODE_NM=활성}, S={CODE=S, CODE_NM=비활성}} 
                   	<c:forEach items="${codeMap}" var="sub2">
-                  		codeMap의 value를 분리하면 키는 ${sub2.value.CODE} 밸류는  ${sub2.value.CODE_NM} <br>
+                  		codeMap의 밸류를 분리하면 키는 ${sub2.value.CODE} 밸류는 ${sub2.value.CODE_NM}<br>
                   	</c:forEach>
                   	-->
-					</div>
-					  <div class="form-group">
-	                  	<label for="GROUP_ID">GROUP_ID</label>
-	                  	<select class="form-control" name="GROUP_ID" id="GROUP_ID">
-	                  		<c:forEach items="${codeGroup}" var="sub">
-	                  			<option value="${sub.value.GROUP_ID}" >${sub.value.GROUP_NM}</option>
-	                  		</c:forEach>
-	                  	</select>                  		
-	                  </div>
-					<div class="form-group">
-						<label for="ESNTL_ID">ESNTL_ID</label> 
-						<input value="${memberVO.ESNTL_ID}" type="text"
-							class="form-control" name="ESNTL_ID" id="ESNTL_ID"
-							placeholder="게시판관리 고유ID를 입력해주세요" required readonly>
-					</div>
-				</div>
-						<!-- /.card-body -->
+                  </div>
+                  <div class="form-group">
+                  	<label for="GROUP_ID">GROUP_ID</label>
+                  	<select class="form-control" name="GROUP_ID" id="GROUP_ID">
+                  		<c:forEach items="${codeGroup}" var="sub">
+                  			<option value="${sub.value.GROUP_ID}" <c:out value="${(memberVO.GROUP_ID==sub.value.GROUP_ID)?'selected':''}" /> >${sub.value.GROUP_NM}</option>
+                  		</c:forEach>
+                  	</select>                  		
+                  </div>
+                  <div class="form-group">
+                  	<label for="ESNTL_ID">ESNTL_ID</label>
+                  	<input value="${memberVO.ESNTL_ID}" type="text" class="form-control" name="ESNTL_ID" id="ESNTL_ID" placeholder="게시판관리 고유ID를 입력해 주세요" required readonly>
+                  </div>
+                </div>
+                <!-- /.card-body -->
               
            </div>
            

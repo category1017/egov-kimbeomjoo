@@ -461,7 +461,7 @@ public class AdminController {
 	@RequestMapping(value="/admin/member/update_member.do",method=RequestMethod.POST)
 	public String update_member(EmployerInfoVO memberVO,RedirectAttributes rdat) throws Exception{
 		//회원수정페이지 DB처리
-		if(memberVO.getPASSWORD() !=null) {
+		if(memberVO.getPASSWORD() !=null && !"".equals(memberVO.getPASSWORD())) {
 			String formPassword = memberVO.getPASSWORD();//GET
 			String encPassword = EgovFileScrty.encryptPassword(formPassword, memberVO.getEMPLYR_ID());
 			memberVO.setPASSWORD(encPassword);//SET
