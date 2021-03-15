@@ -19,7 +19,7 @@
 		<!-- 메인본문영역 -->
 		<div class="bodytext_area box_inner">
 			<!-- 폼영역 -->
-			<form method="POST" name="mypage_form" action="<c:url value='/tiles/mypage_form.do' />" class="appForm">
+			<form method="POST" name="mypage_form" action="<c:url value='/tiles/member/mypage.do' />" class="appForm">
 				<fieldset>
 					<legend>회원가입폼</legend>
 					<p class="info_pilsoo pilsoo_item">필수입력</p>
@@ -27,12 +27,12 @@
 						<li class="clear">
 							<label for="EMPLYR_ID" class="tit_lbl pilsoo_item">아이디</label>
 							<div class="app_content">
-							<input value="${memberVO.EMPLYR_ID}" type="text" name="EMPLYR_ID" class="w100p" id="EMPLYR_ID" placeholder="아이디를 입력해주세요" required/></div>
+							<input readonly value="${memberVO.EMPLYR_ID}" type="text" name="EMPLYR_ID" class="w100p" id="EMPLYR_ID" placeholder="아이디를 입력해주세요" required/></div>
 						</li>
 						<li class="clear">
 							<label for="password_lbl" class="tit_lbl pilsoo_item">비밀번호</label>
 							<div class="app_content">
-							<input type="password" name="PASSWORD" class="w100p" id="password_lbl" placeholder="비밀번호를 입력해주세요" required/></div>
+							<input type="password" name="PASSWORD" class="w100p" id="password_lbl" placeholder="비밀번호를 입력해주세요" /></div>
 						</li>
 						<li class="clear">
 							<label for="password_hint_lbl" class="tit_lbl pilsoo_item">비밀번호 힌트</label>
@@ -93,7 +93,13 @@
 <script>
 $(document).ready(function(){
 	$("#btn_delete").on("click", function(){
-		alert("회원탈퇴기능은 준비중 입니다.");
+		//alert("회원탈퇴기능은 준비중 입니다.");
+		if(confirm("진짜로 탈퇴하시겠습니까?")){
+			var form = $("form[name='mypage_form']");
+			form.attr("action","<c:url value='/tiles/member/mypage_delete.do' />");
+			//$(form "input[name='EMPLYR_STTUS_CODE']").val("S");//대신에 컨트롤러에서 처리(보안때문)
+			form.submit();
+		}
 	});
 });
 </script>

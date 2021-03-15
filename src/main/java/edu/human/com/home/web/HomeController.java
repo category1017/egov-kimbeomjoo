@@ -77,6 +77,33 @@ public class HomeController {
 	@Inject
 	private MemberService memberService;
 	
+	@RequestMapping("/tiles/member/mypage_delete.do")
+	public String mypage_delete(HttpServletRequest request, EmployerInfoVO memberVO,RedirectAttributes rdat) throws Exception{
+		//회원탈퇴페이지 DB처리(활성->비활성)
+		if(memberVO.getPASSWORD() !=null && !"".equals(memberVO.getPASSWORD())) {
+			String formPassword = memberVO.getPASSWORD();//GET
+			String encPassword = EgovFileScrty.encryptPassword(formPassword, memberVO.getEMPLYR_ID());
+			memberVO.setPASSWORD(encPassword);//SET
+		}
+		memberVO.setEMPLYR_STTUS_CODE("S");//회원비활성화로 변경
+		memberService.updateMember(memberVO);
+		rdat.addFlashAttribute("msg", "회원탈퇴");
+		//세션을 날립니다.
+		request.getSession().invalidate();//LoginVO세션값, 현재URL에서 모든 세션 날라감
+		return "redirect:/tiles/home.do";
+	}	
+	@RequestMapping("/tiles/member/mypage.do")
+	public String mypage(EmployerInfoVO memberVO,RedirectAttributes rdat) throws Exception{
+		//회원수정페이지 DB처리
+		if(memberVO.getPASSWORD() !=null && !"".equals(memberVO.getPASSWORD())) {
+			String formPassword = memberVO.getPASSWORD();//GET
+			String encPassword = EgovFileScrty.encryptPassword(formPassword, memberVO.getEMPLYR_ID());
+			memberVO.setPASSWORD(encPassword);//SET
+		}
+		memberService.updateMember(memberVO);
+		rdat.addFlashAttribute("msg", "수정");//아래 view_member.jsp로 변수 msg값을 전송
+		return "redirect:/tiles/member/mypage_form.do";
+	}
 	@RequestMapping("/tiles/member/mypage_form.do")
 	public String mypage_form(HttpServletRequest request, Model model) throws Exception{
 		//회원 보기[,수정] 페이지 이동
@@ -510,9 +537,9 @@ public class HomeController {
 		return "login.tiles";
 	}
 	@RequestMapping("/logout.do")
-	public String logout() throws Exception {
+	public String logout(HttpServletRequest request) throws Exception {
 		RequestContextHolder.getRequestAttributes().removeAttribute("LoginVO", RequestAttributes.SCOPE_SESSION);
-
+		request.getSession().invalidate();//LoginVO 세션값이 현재 Url의 모든 세션 날림
 		return "redirect:/";
 	}
 	//method.RequestMethod=GET[POST] 없이사용하면, 둘다 허용되는 매핑이됨
