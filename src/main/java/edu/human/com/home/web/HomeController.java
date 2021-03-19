@@ -539,7 +539,7 @@ public class HomeController {
 	@RequestMapping("/logout.do")
 	public String logout(HttpServletRequest request) throws Exception {
 		RequestContextHolder.getRequestAttributes().removeAttribute("LoginVO", RequestAttributes.SCOPE_SESSION);
-		request.getSession().invalidate();//LoginVO 세션값이 현재 Url의 모든 세션 날림
+		request.getSession().invalidate();//LoginVO 세션값이 현재 Url의 모든 세션(ROLE_ADMIN세션포함) 날림
 		return "redirect:/";
 	}
 	//method.RequestMethod=GET[POST] 없이사용하면, 둘다 허용되는 매핑이됨
