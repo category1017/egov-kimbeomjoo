@@ -19,7 +19,7 @@
 	    <Logger name="org.springframework" level="INFO" additivity="false">
 	        <AppenderRef ref="console" />
 	    </Logger>
-        <Root level="ERROR">
+        <Root level="DEBUG"> <!-- 배포할때는 INFO or ERROR로 변경 -->
             <AppenderRef ref="console" />
         </Root>
     </Loggers>
