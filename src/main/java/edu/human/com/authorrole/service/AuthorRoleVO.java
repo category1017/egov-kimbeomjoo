@@ -5,7 +5,7 @@ package edu.human.com.authorrole.service;
  *
  */
 public class AuthorRoleVO {
-	private int UTHORROLE_ID;
+	private int AUTHORROLE_ID;
 	private String ROLE_PTTRN;
 	private String AUTHOR_CODE;
 	private String AUTHORROLE_DC;
@@ -14,16 +14,15 @@ public class AuthorRoleVO {
 	
 	@Override
 	public String toString() {
-		return "AuthorRoleVO [UTHORROLE_ID=" + UTHORROLE_ID + ", ROLE_PTTRN=" + ROLE_PTTRN + ", AUTHOR_CODE="
+		return "AuthorRoleVO [AUTHORROLE_ID=" + AUTHORROLE_ID + ", ROLE_PTTRN=" + ROLE_PTTRN + ", AUTHOR_CODE="
 				+ AUTHOR_CODE + ", AUTHORROLE_DC=" + AUTHORROLE_DC + ", SORT_ORDR=" + SORT_ORDR + ", USE_AT=" + USE_AT
 				+ "]";
 	}
-	
-	public int getUTHORROLE_ID() {
-		return UTHORROLE_ID;
+	public int getAUTHORROLE_ID() {
+		return AUTHORROLE_ID;
 	}
-	public void setUTHORROLE_ID(int uTHORROLE_ID) {
-		UTHORROLE_ID = uTHORROLE_ID;
+	public void setAUTHORROLE_ID(int aUTHORROLE_ID) {
+		AUTHORROLE_ID = aUTHORROLE_ID;
 	}
 	public String getROLE_PTTRN() {
 		return ROLE_PTTRN;
@@ -55,6 +54,5 @@ public class AuthorRoleVO {
 	public void setUSE_AT(String uSE_AT) {
 		USE_AT = uSE_AT;
 	}
-
 	
 }
