@@ -37,14 +37,14 @@
 
                 <div class="card-tools">
                   
-	                  <form name="search_form" action="<c:url value='/' />admin/member/list_member.do" method="get">
+	                  <form name="search_form" action="<c:url value='/' />admin/authorrole/list_author.do" method="get">
 	                  <div class="input-group input-group-sm" >
 	                  <!-- 부트스트랩 탬플릿만으로는 디자인 처리가 완전히 되지 않기 때문에 인라인 스타일 사용 -->
 	                  <div>                            
 	                        <select name="search_type" class="form-control">
 	                           <option value="all" selected>-전체-</option>
-	                           <option value="user_id" data-select2-id="8">ID</option>
-	                           <option value="user_name" data-select2-id="16">이름</option>
+	                            <option value="author_code" data-select2-id="8">권한이름</option>
+                            	<option value="role_pttrn" data-select2-id="16">화면경로</option>
 	                         </select>
 	                  </div>
 	                  <div>
@@ -75,7 +75,7 @@
                   <tbody>
                   <c:forEach items="${authorRoleList}" var="vo">
                     <tr>
-                      <td><a href="<c:url value='/admin/authorrole/view_authorrole.do?authorrole_id=${vo.AUTHORROLE_ID}&page=${pageVO.page}&search_type=${searchType=search_type}&search_keyword=${search_keyword}' />">
+                      <td><a href="<c:url value='/admin/authorrole/view_authorrole.do?authorrole_id=${vo.AUTHORROLE_ID}&page=${pageVO.page}&search_type${pageVO.search_type}=&search_keyword=${pageVO.search_keyword}' />">
                       ${vo.ROLE_PTTRN}
                       </a></td>
                       <!-- 위에 a링크값은 리스트가 늘어날수록 동적으로  authorrole_id값이 변하게 됩니다. 개발자가 jsp로 처리 -->
@@ -98,7 +98,7 @@
                      
               <!-- 버튼영역 시작 -->
               <div class="card-body">
-              <a href="<c:url value='/admin/member/insert_member.do'/>" class="btn btn-primary float-right">등록</a>
+              <a href="<c:url value='/admin/authorrole/insert_author.do'/>" class="btn btn-primary float-right">등록</a>
               <!-- 부트스트랩 디자인 버튼클래스를 이용해서 a태그를 버튼모양으로 만들기(위) -->
               <!-- btn클래스명이 버튼모양으로 변경, btn-primary클래스명은 버튼색상을 변경하는 역할 -->
               <!-- style이 아닌 class인 이유 부트스트랩에 이미 style이 적용되어있어서 -->
@@ -112,20 +112,20 @@
              <ul class="pagination">
              <c:if test="${pageVO.prev}">
 	              	 <li class="paginate_button page-item previous" id="example2_previous">
-	              	 <a href="<c:url value='/' />admin/member/list_member.do?page=${pageVO.startPage-1}&search_type=${pageVO.search_type}&search_keyword=${pageVO.search_keyword}" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+	              	 <a href="<c:url value='/' />admin/authorrole/list_author.do?page=${pageVO.startPage-1}&search_type=${pageVO.search_type}&search_keyword=${pageVO.search_keyword}" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
 	              	 </li>
               	 	<!-- 위 이전 게시물링크 -->
               	 </c:if>
               	 <!-- jstl for문이고, 향상된 for문이 아닌 고전for문으로 시작값,종료값 var변수idx는 인덱스값이 저장되어 있음. -->
               	 <c:forEach begin="${pageVO.startPage}" end="${pageVO.endPage}" var="idx">
               	 	<li class='paginate_button page-item <c:out value="${idx==pageVO.page?'active':''}" />'>
-              	 	<a href="<c:url value='/' />admin/member/list_member.do?page=${idx}&search_type=${pageVO.search_type}&search_keyword=${pageVO.search_keyword}" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">${idx}</a></li>
+              	 	<a href="<c:url value='/' />admin/authorrole/list_author.do?page=${idx}&search_type=${pageVO.search_type}&search_keyword=${pageVO.search_keyword}" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">${idx}</a></li>
               	 </c:forEach>
           	   	 
              	 <c:if test="${pageVO.next}">
              	 	<!-- 아래 다음 게시물링크 -->
 	              	 <li class="paginate_button page-item next" id="example2_next">
-	              	 <a href="<c:url value='/' />admin/member/list_member.do?page=${pageVO.endPage+1}&search_type=${pageVO.search_type}&search_keyword=${pageVO.search_keyword}" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+	              	 <a href="<c:url value='/' />admin/authorrole/list_author.do?page=${pageVO.endPage+1}&search_type=${pageVO.search_type}&search_keyword=${pageVO.search_keyword}" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
 	              	 </li>
 	             </c:if>
               	 </ul>

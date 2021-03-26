@@ -11,6 +11,9 @@ import edu.human.com.util.PageVO;
 @Repository //DAO클래스는 Repository
 public class AuthorRoleDAO extends EgovComAbstractMapper  {
 	
+	public int countAuthorRole(PageVO pageVO) throws Exception {
+		return selectOne("authorroleMapper.countAuthorRole", pageVO);
+	}
 	public List<AuthorRoleVO> selectAuthorRole(PageVO pageVO) throws Exception {
 		//pageVO는 초기값이 필요합니다. 초기값은 Controller클래스에서 입력하게됩니다.
 		List<AuthorRoleVO> authorRoleList = selectList("authorroleMapper.selectAuthorRole",pageVO);

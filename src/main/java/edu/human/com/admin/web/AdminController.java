@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 
+import org.apache.commons.logging.impl.SimpleLog;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,7 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import edu.human.com.authorrole.service.AuthorRoleService;
 import edu.human.com.authorrole.service.AuthorRoleVO;
+import edu.human.com.authorrole.service.impl.AuthorRoleDAO;
 import edu.human.com.board.service.BoardService;
 import edu.human.com.member.service.EmployerInfoVO;
 import edu.human.com.member.service.MemberService;
@@ -48,6 +51,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 @Controller
 public class AdminController {
 	
+	private Logger logger = Logger.getLogger(SimpleLog.class);
 	@Inject
 	private MemberService memberService;
 	@Inject
@@ -56,6 +60,8 @@ public class AdminController {
 	private BoardService boardService;
 	@Inject
 	private AuthorRoleService authorRoleService;
+	@Inject
+	private AuthorRoleDAO authorRoleDAO;
 	@Autowired 
 	//스프링빈(new키워드로 만드는 오브젝트방식x) 오브젝트를 사용하는 방법 @Inject(자바8이상), @Autowired(많이사용),@Resource(자바7이하)
 	private EgovBBSAttributeManageService bbsAttrbService;
@@ -80,7 +86,10 @@ public class AdminController {
 		pageVO.setPerPageNum(5);//하단에 보여줄 페이지번호 개수
 		pageVO.setQueryPerPageNum(10);//한 화면에 보여줄 리스트(레코드)의 개수
 		List<AuthorRoleVO> authorRoleList = authorRoleService.selectAuthorRole(pageVO);
-		pageVO.setTotalCount(authorRoleList.size());//이 명령어에서 prev,next등이 계산됨
+		
+		int countAuthorRole = authorRoleDAO.countAuthorRole(pageVO);
+		pageVO.setTotalCount(countAuthorRole);//이 명령어에서 prev,next등이 계산됨
+		logger.debug("디버그 : 토탈 사이즈"+countAuthorRole);
 		model.addAttribute("authorRoleList", authorRoleList);//jsp파일에서 authorRoleList값이 "authorRoleList"이름으로 쓰임
 		return "/admin/authorrole/list_author";
 	}
