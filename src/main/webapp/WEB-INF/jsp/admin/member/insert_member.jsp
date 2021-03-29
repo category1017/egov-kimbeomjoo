@@ -73,7 +73,7 @@
 						<label for="SEXDSTN_CODE">SEXDSTN_CODE</label> 
 						<select class="form-control" name="SEXDSTN_CODE" id="SEXDSTN_CODE">
 							<option value="M" >남자</option>
-							<option value="F" >여자
+							<option value="F" >여자</option>
 						</select>
 					</div>
 					<div class="form-group">
@@ -98,7 +98,7 @@
 						<label for="EMPLYR_STTUS_CODE">EMPLYR_STTUS_CODE</label> 
 						<select class="form-control" name="EMPLYR_STTUS_CODE" id="EMPLYR_STTUS_CODE">
 	                  	<c:forEach items="${codeMap}" var="sub">
-	                  		<option value="${sub.value.CODE}" >${sub.value.CODE_NM}</option>
+	                  		<option value="${sub.value.code}" >${sub.value.code_nm}</option>
 	                  	</c:forEach>
                   	</select>
                   	<!-- 위코드 설명 : 맵자료형을 jstl에서 출력하기(아래) -->
@@ -112,7 +112,7 @@
 						<label for="GROUP_ID">GROUP_ID</label> 
 						<select class="form-control" name="GROUP_ID" id="GROUP_ID">
 							<c:forEach items="${codeGroup}" var="sub">
-								<option value="${sub.value.GROUP_ID}" >${sub.value.GROUP_NM}</option>
+								<option value="${sub.value.group_id}" >${sub.value.group_nm}</option>
 							</c:forEach>
 						</select>
 					</div>
