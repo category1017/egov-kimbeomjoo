@@ -28,7 +28,7 @@ select count(*) from authorrole
 select * from authorrole
 <include refid="searchQuery"/>
 order by sort_ordr desc
-LIMIT #{queryStartNo},#{queryPerPageNum}
+LIMIT #{queryPerPageNum} OFFSET  #{queryStartNo}
 </select>
 
 <select id="viewAuthorRole" resultType="edu.human.com.authorrole.service.AuthorRoleVO">

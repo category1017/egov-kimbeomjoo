@@ -9,7 +9,7 @@ public class AuthorRoleVO {
 	private String ROLE_PTTRN;
 	private String AUTHOR_CODE;
 	private String AUTHORROLE_DC;
-	private String SORT_ORDR;
+	private Integer SORT_ORDR;
 	private String USE_AT;
 	
 	@Override
@@ -42,10 +42,10 @@ public class AuthorRoleVO {
 	public void setAUTHORROLE_DC(String aUTHORROLE_DC) {
 		AUTHORROLE_DC = aUTHORROLE_DC;
 	}
-	public String getSORT_ORDR() {
+	public Integer getSORT_ORDR() {
 		return SORT_ORDR;
 	}
-	public void setSORT_ORDR(String sORT_ORDR) {
+	public void setSORT_ORDR(Integer sORT_ORDR) {
 		SORT_ORDR = sORT_ORDR;
 	}
 	public String getUSE_AT() {
