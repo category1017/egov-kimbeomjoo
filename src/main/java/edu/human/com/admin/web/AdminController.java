@@ -83,7 +83,7 @@ public class AdminController {
 	public String delete_author(AuthorRoleVO authorRoleVO, RedirectAttributes rdat) throws Exception{
 		authorRoleService.deleteAuthorRole(authorRoleVO.getAUTHORROLE_ID());
 		rdat.addFlashAttribute("msg", "삭제");
-		return "redirect:/admin/authorrole/list_author.do?";
+		return "redirect:/admin/authorrole/list_author.do";
 	}
 	//권한 관리 등록하기 호출POST
 	@RequestMapping(value="/admin/authorrole/insert_author.do", method=RequestMethod.POST)
