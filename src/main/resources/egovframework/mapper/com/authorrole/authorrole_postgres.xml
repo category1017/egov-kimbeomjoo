@@ -43,13 +43,13 @@ AUTHOR_CODE,
 AUTHORROLE_DC,
 SORT_ORDR,
 USE_AT
-)values{
-(select SELECT AUTHORROLE_ID+1 FROM authorrole order by AUTHORROLE_ID desc limit 1),
+)values(
+(SELECT AUTHORROLE_ID+1 FROM authorrole order by AUTHORROLE_ID desc limit 1),
 #{ROLE_PTTRN},
 #{AUTHOR_CODE},
 #{AUTHORROLE_DC},
 #{SORT_ORDR},
-#{USE_AT},
+#{USE_AT}
 )
 </insert>
 <update id="updateAuthorRole">

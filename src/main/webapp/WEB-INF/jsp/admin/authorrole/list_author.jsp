@@ -98,7 +98,7 @@
                      
               <!-- 버튼영역 시작 -->
               <div class="card-body">
-              <a href="<c:url value='/admin/authorrole/insert_author.do'/>" class="btn btn-primary float-right">등록</a>
+              <a href="<c:url value='/admin/authorrole/insert_author_form.do'/>" class="btn btn-primary float-right">등록</a>
               <!-- 부트스트랩 디자인 버튼클래스를 이용해서 a태그를 버튼모양으로 만들기(위) -->
               <!-- btn클래스명이 버튼모양으로 변경, btn-primary클래스명은 버튼색상을 변경하는 역할 -->
               <!-- style이 아닌 class인 이유 부트스트랩에 이미 style이 적용되어있어서 -->
